@@ -1,0 +1,99 @@
+<!-- Only For Admins-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+
+    <title>Nasa Apod Directory</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}" />
+
+    <style>
+        body {
+            background-image: url('/images/mars-5564141.jpg'); /* Replace 'your-image-url.jpg' with the URL of your image */
+            background-size: cover; /* Optional: Adjust the background size to cover the entire element */
+            background-repeat: no-repeat; /* Optional: Prevent the background image from repeating */
+            background-attachment: fixed; /* Keep the background fixed in the viewport */
+        }
+
+        table {
+            background-color: rgba(158, 200, 185, 0.5); /* Adjust the alpha value for transparency */
+         }
+
+        table th,
+        table td {
+                 color: #11235A; /* Set the text color to white or any other color you prefer */
+                 }
+
+       .p-tags
+       {
+            color:#FF004D;
+       }
+       .main-color
+        {
+            color:#FF9800;
+        }
+    </style>
+</head>
+
+<body>
+<p class="p-tags">Admin Page</p>
+<!-- Displaying admin name -->
+<p class="p-tags">Welcome Back</p>
+<h2 class="main-color" sec:authentication="principal.username"></h2>
+<hr>
+<a th:href="@{/nasa/home-page}" class="btn btn-info">Go Back Home</a>
+<div class="container">
+
+    <h3 class="main-color">Apod-Directory</h3>
+    <hr>
+    <a th:href="@{/nasa/save-apod-mvc}" class="btn btn-primary btn-sm mb-3">Add Apod</a>
+
+    <!-- Table For PERFORMING CRUD OPERAITONS ON APOD-->
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Copyright</th>
+            <th>Date</th>
+            <th>Explanation</th>
+            <th>HD-Url</th>
+            <th>Title</th>
+            <th>URL</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempApods:${apods}">
+            <td th:text="${tempApods.copyright}"></td>
+            <td th:text="${tempApods.date}"></td>
+            <td th:text="${tempApods.explanation}"></td>
+            <td th:text="${tempApods.hdurl}"></td>
+            <td th:text="${tempApods.title}"></td>
+            <td th:text="${tempApods.url}"></td>
+            <td>
+                <a th:href="@{/nasa/showFormToUpdateApod(apodId=${tempApods.id})}"
+                   class="btn btn-info btn-sm">Update</a>
+                <a th:href="@{/nasa/deleteApodMVC(apodId=${tempApods.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to delete this Apod?'))) return false">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+
+</html>

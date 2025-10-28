@@ -1,0 +1,48 @@
+<!-- Update Apod Directory page-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}" />
+    <title>Update Apod Details</title>
+    <style>
+        .error
+        {
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3>Nasa Apod Directory</h3>
+    <hr>
+
+    <form action="#" th:action="@{/nasa/saveApodForm}" th:object="${apod}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}" class="error"></span>
+        <input type="text" th:field="*{url}" class="form-control mb-4 w-25" placeholder="Compressed Image Link"/>
+        <span th:if="${#fields.hasErrors('hdurl')}" th:errors="*{hdurl}" class="error"></span>
+        <input type="text" th:field="*{hdurl}" class="form-control mb-4 w-25" placeholder="High Definition Image Link"/>
+        <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="error"></span>
+        <input type="text" th:field="*{date}" class="form-control mb-4 w-25" placeholder="Date"/>
+        <span th:if="${#fields.hasErrors('copyright')}" th:errors="*{copyright}" class="error"></span>
+        <input type="text" th:field="*{copyright}" class="form-control mb-4 w-25" placeholder="Copyright"/>
+        <span th:if="${#fields.hasErrors('explanation')}" th:errors="*{explanation}" class="error"></span>
+        <input type="text" th:field="*{explanation}" class="form-control mb-4 w-25" placeholder="Explanation"/>
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></span>
+        <input type="text" th:field="*{title}" class="form-control mb-4 w-25" placeholder="Title"/>
+        <button type="submit" class="btn btn-info col-2">Submit</button>
+    </form>
+    <hr>
+    <a th:href="@{/nasa/list-apods}" class="btn btn-primary btn-sm mb-3">Back To Apod List</a>
+
+</div>
+</body>
+</html>

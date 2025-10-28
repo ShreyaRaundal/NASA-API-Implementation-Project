@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy Picture Of The Day</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+        }
+        .title-color
+        {
+            color:#7D0A0A;
+        }
+        .title-details
+        {
+            color:#F6F7C4
+        }
+
+       .p-tags
+       {
+            color:#FF004D;
+       }
+       .main-color
+        {
+            color:#FF9800;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+
+<!-- Displaying username of current user-session -->
+<p class="p-tags">Welcome Back</p>
+<h2 class="main-color" sec:authentication="principal.username"></h2>
+<hr>
+<a th:href="@{/nasa/home-page}" class="btn btn-info">Go Back Home</a>
+
+<!-- Video Background -->
+<video id="video-background" autoplay muted loop>
+    <source th:src="@{/images/nasa1080.mp4}">
+    Your browser does not support the video tag.
+</video>
+
+<!-- Astronomy Picture Of The Day Details-->
+<div th:object="${apod}" class="text-center">
+    <h4 th:class="title-color" class="mb-3">Title</h4>
+    <h4> <span th:class="title-details" th:text="${apod.title}"></span></h4>
+    <h4 th:class="title-color" class="mb-3">Description</h4>
+    <h4><span th:class="title-details" th:text="${apod.explanation}"></span></h4>
+
+    <div class="mx-auto mb-4" style="max-width: 80%;">
+        <img th:src="${apod.hdurl}" class="img-fluid" alt="Image">
+    </div>
+
+</div>
+
+<!--- Java Scripts If Needed-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

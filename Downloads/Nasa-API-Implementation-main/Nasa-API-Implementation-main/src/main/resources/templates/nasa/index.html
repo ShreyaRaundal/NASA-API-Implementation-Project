@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mars Rover Photos</title>
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}" />
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+        }
+
+        .container {
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        #photos {
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+        }
+        .selected-camera-label {
+            color: lightcoral; /* Set the color for selected cameras */
+        }
+        .mars-rover
+        {
+            color:#AAD9BB;
+        }
+
+       .main-color
+        {
+            color:#FF9800;
+        }
+       .p-tags
+       {
+            color:#FF004D;
+       }
+
+    </style>
+</head>
+
+<body>
+<!-- Username of current session-->
+<p class="p-tags">Welcome Back</p>
+<h2 class="main-color" sec:authentication="principal.username"></h2>
+<hr>
+<a th:href="@{/nasa/home-page}" class="btn btn-info">Go Back Home</a>
+
+<!-- Video background-->
+<video id="video-background" autoplay muted loop>
+    <source th:src="@{/images/nasa4k.mp4}">
+    Your browser does not support the video tag.
+</video>
+
+<div class="container">
+    <h2 class="mars-rover">Mars Rover Photos</h2>
+
+    <!-- Rover Type-->
+    <form th:action="@{/nasa/show-photos}" th:object="${roverPhotoRequest}" th:method="POST" >
+        <div class="form-group">
+            <label for="roverSelect" class="btn btn-primary btn-sm mb-3">Select Rover Type:</label>
+            <select class="form-control" id="roverSelect" th:field="*{roverType}">
+                <option value="Curiosity">Curiosity</option>
+                <option value="Opportunity">Opportunity</option>
+                <option value="Spirit">Spirit</option>
+            </select>
+        </div>
+
+        <!-- Rover Camera's-->
+        <div class="form-group">
+            <label class="btn btn-info">Select Camera(s):</label>
+            <div class="form-check" th:each="camera : ${allCameras}">
+                <input class="form-check-input-text-secondary" type="checkbox" id="${'camera-' + camera}" name="roverCameras" th:value="${camera}" th:checked="${roverPhotoRequest.roverCameras != null and #lists.contains(roverPhotoRequest.roverCameras, camera)}"/>
+                <label th:class="selected-camera-label" th:for="${'camera-' + camera}" th:text="${camera}"></label>
+            </div>
+        </div>
+
+        <!-- Rover Earth Date-->
+        <div class="form-group">
+    <label class="btn btn-info" for="earthDateInput">Enter Earth Date:</label>
+    <span th:if="${#fields.hasErrors('earthDate')}" th:errors="*{earthDate}" class="error"></span>
+    <input type="text" class="form-control" id="earthDateInput" name="earthDate" placeholder="YYYY-MM-DD" th:value="${roverPhotoRequest.earthDate}">
+</div>
+
+
+<button type="submit" class="btn btn-primary">Show Photos</button>
+    </form>
+
+    <!-- Java Script If needed- Optional-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</div>
+</body>
+
+</html>
